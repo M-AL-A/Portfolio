@@ -11,7 +11,6 @@ The Crypto Investment Dashboard is a web application that helps users:
 This project integrates with Ledger Live and uses the CoinGecko API to fetch live market data.
 
 ## Features
-    - **Ledger Live Integration**: Automatically fetch portfolio data.
     - **Real-Time Market Data**: Live updates for crypto prices using CoinGecko API.
     - **Trade Recommendations**: Suggestions based on price trends and thresholds.
     - **Interactive Dashboard**: Dynamic charts and tables for portfolio visualization.
@@ -35,9 +34,7 @@ This project integrates with Ledger Live and uses the CoinGecko API to fetch liv
     5. Open your browser and navigate to http://127.0.0.1:8050/.
 
 ## Usage
-    1. Export your Ledger Live portfolio data as a CSV file.
-    2. Place the file in the root directory of this project.
-    3. Open the dashboard and explore:
+    Open the dashboard and explore:
         - View your portfolio distribution.
         - Check real-time market data.
         - Get actionable trade recommendations.
@@ -49,7 +46,6 @@ crypto-dashboard/
 
 ├── data/                   # Directory for data files
 
-│   └── ledger_portfolio.csv  # Example portfolio CSV
 
 ├── static/                 # Directory for static assets
 
@@ -89,7 +85,6 @@ crypto-dashboard/
     - Plotly for interactive charts
 
 ## Future Features
-    - Full Ledger Live API integration.
     - Support for multiple portfolios.
     - Historical trade analysis.
     - Deployment to a live server.

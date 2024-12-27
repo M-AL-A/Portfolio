@@ -44,6 +44,7 @@ This project integrates with Ledger Live and uses the CoinGecko API to fetch liv
 
 ## File Structure
 crypto-dashboard/
+
 ├── app.py                  # Main application script
 
 ├── data/                   # Directory for data files
@@ -74,7 +75,6 @@ crypto-dashboard/
 
 └── LICENSE                 # License information
 
-               # License for the project
 
 ## Screenshots
 ![Portfolio Distribution](screenshots/portfolio_chart.png)

@@ -44,22 +44,37 @@ This project integrates with Ledger Live and uses the CoinGecko API to fetch liv
 
 ## File Structure
 crypto-dashboard/
+
 ├── app.py                  # Main application script
+
 ├── data/                   # Directory for data files
+
 │   └── ledger_portfolio.csv  # Example portfolio CSV
+
 ├── static/                 # Directory for static assets
+
 │   ├── style.css           # Custom styles
+
 │   ├── logo.png            # Logo
+
 ├── templates/              # HTML templates for rendering pages
+
 │   └── base.html
+
 ├── utils/                  # Helper modules
+
 │   ├── api_helpers.py      # Functions to fetch market data
+
 │   └── trade_logic.py      # Logic for trade recommendations
+
 ├── screenshots/            # Images for README
+
 ├── requirements.txt        # Python dependencies
+
 ├── README.md               # Detailed project description
+
 └── LICENSE                 # License information
-               # License for the project
+
 
 ## Screenshots
 ![Portfolio Distribution](screenshots/portfolio_chart.png)

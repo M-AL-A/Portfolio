@@ -5,15 +5,17 @@ import json
 
 app = Flask(__name__)
 
-# Define the path to the watchlist file
-WATCHLIST_FILE = '/data/crypto_watchlist.json'
+# Define the path to the watchlist file located in /data
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+WATCHLIST_FILE = os.path.join(BASE_DIR, 'data', 'crypto_watchlist.json')
 
-# Define a route for the root URL
+# Ensure the /data directory exists
+os.makedirs(os.path.join(BASE_DIR, 'data'), exist_ok=True)
+
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return 'Welcome to the Crypto Investment Dashboard!'
 
-# Define the watchlist route to get all items in the watchlist
 @app.route('/watchlist', methods=['GET'])
 def get_watchlist():
     if not os.path.exists(WATCHLIST_FILE):
@@ -23,7 +25,6 @@ def get_watchlist():
         watchlist = json.load(file)
     return jsonify(watchlist)
 
-# Define a route to add a cryptocurrency to the watchlist
 @app.route('/watchlist/add', methods=['POST'])
 def add_to_watchlist():
     data = request.get_json()
@@ -49,7 +50,6 @@ def add_to_watchlist():
 
     return jsonify({"message": f"{symbol} added to the watchlist."})
 
-# Define a route to remove a cryptocurrency from the watchlist
 @app.route('/watchlist/remove', methods=['POST'])
 def remove_from_watchlist():
     data = request.get_json()
@@ -73,7 +73,6 @@ def remove_from_watchlist():
 
     return jsonify({"message": f"{symbol} removed from the watchlist."})
 
-# Define a route to fetch live data for cryptocurrencies in the watchlist
 @app.route('/watchlist/data', methods=['GET'])
 def get_watchlist_data():
     if not os.path.exists(WATCHLIST_FILE):

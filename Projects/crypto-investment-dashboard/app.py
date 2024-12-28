@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import requests
 import json
 
@@ -7,7 +7,7 @@ app = Flask(__name__)
 # Define a route for the root URL
 @app.route('/')
 def home():
-    return 'Welcome to the Crypto Investment Dashboard!'
+    return render_template('index.html')
 
 # Define the watchlist route to get all items in the watchlist
 @app.route('/watchlist', methods=['GET'])

@@ -28,6 +28,8 @@ def add_to_watchlist():
     if not symbol:
         return jsonify({"message": "Symbol is required."}), 400
 
+    link = f"https://www.coingecko.com/en/coins/{symbol.lower()}"
+
     try:
         with open('crypto_watchlist.json', 'r') as file:
             watchlist = json.load(file)
@@ -37,7 +39,7 @@ def add_to_watchlist():
     if symbol in watchlist:
         return jsonify({"message": f"{symbol} is already in the watchlist."}), 400
 
-    watchlist[symbol] = {"symbol": symbol}
+    watchlist[symbol] = {"symbol": symbol, "link": link}
     with open('crypto_watchlist.json', 'w') as file:
         json.dump(watchlist, file, indent=4)
 
@@ -77,16 +79,19 @@ def get_watchlist_data():
         return jsonify({"message": "Watchlist is empty."})
 
     crypto_data = {}
-    for symbol in watchlist:
+    for symbol, details in watchlist.items():
         response = requests.get(f'https://api.coingecko.com/api/v3/simple/price?ids={symbol}&vs_currencies=usd')
         if response.status_code == 200:
             data = response.json()
             if symbol in data:
-                crypto_data[symbol] = data[symbol]
+                crypto_data[symbol] = { 
+                    "price": data[symbol].get('usd', 'N/A'),
+                    "link": details['link']
+                }
             else:
-                crypto_data[symbol] = {"error": "Not found in API."}
+                crypto_data[symbol] = {"error": "Not found in API.", "link": details['link']}
         else:
-            crypto_data[symbol] = {"error": "Failed to fetch data."}
+            crypto_data[symbol] = {"error": "Failed to fetch data.", "link": details['link']}
 
     return jsonify(crypto_data)
 

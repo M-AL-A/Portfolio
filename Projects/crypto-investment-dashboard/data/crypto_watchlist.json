@@ -1,0 +1,11 @@
+{
+    "bitcoin": {
+      "symbol": "bitcoin",
+      "link": "https://www.coingecko.com/en/coins/bitcoin"
+    },
+    "ethereum": {
+      "symbol": "ethereum",
+      "link": "https://www.coingecko.com/en/coins/ethereum"
+    }
+  }
+  

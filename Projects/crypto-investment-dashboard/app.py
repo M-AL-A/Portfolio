@@ -1,8 +1,12 @@
-from flask import Flask, jsonify, request, render_template
+import os
+from flask import Flask, jsonify, request
 import requests
 import json
 
 app = Flask(__name__)
+
+# Define the path to the watchlist file
+WATCHLIST_FILE = '/data/crypto_watchlist.json'
 
 # Define a route for the root URL
 @app.route('/')
@@ -12,12 +16,12 @@ def home():
 # Define the watchlist route to get all items in the watchlist
 @app.route('/watchlist', methods=['GET'])
 def get_watchlist():
-    try:
-        with open('crypto_watchlist.json', 'r') as file:
-            watchlist = json.load(file)
-        return jsonify(watchlist)
-    except FileNotFoundError:
+    if not os.path.exists(WATCHLIST_FILE):
         return jsonify({"message": "Watchlist is empty or file not found."})
+
+    with open(WATCHLIST_FILE, 'r') as file:
+        watchlist = json.load(file)
+    return jsonify(watchlist)
 
 # Define a route to add a cryptocurrency to the watchlist
 @app.route('/watchlist/add', methods=['POST'])
@@ -31,7 +35,7 @@ def add_to_watchlist():
     link = f"https://www.coingecko.com/en/coins/{symbol.lower()}"
 
     try:
-        with open('crypto_watchlist.json', 'r') as file:
+        with open(WATCHLIST_FILE, 'r') as file:
             watchlist = json.load(file)
     except FileNotFoundError:
         watchlist = {}
@@ -40,7 +44,7 @@ def add_to_watchlist():
         return jsonify({"message": f"{symbol} is already in the watchlist."}), 400
 
     watchlist[symbol] = {"symbol": symbol, "link": link}
-    with open('crypto_watchlist.json', 'w') as file:
+    with open(WATCHLIST_FILE, 'w') as file:
         json.dump(watchlist, file, indent=4)
 
     return jsonify({"message": f"{symbol} added to the watchlist."})
@@ -55,7 +59,7 @@ def remove_from_watchlist():
         return jsonify({"message": "Symbol is required."}), 400
 
     try:
-        with open('crypto_watchlist.json', 'r') as file:
+        with open(WATCHLIST_FILE, 'r') as file:
             watchlist = json.load(file)
     except FileNotFoundError:
         return jsonify({"message": "Watchlist is empty."})
@@ -64,7 +68,7 @@ def remove_from_watchlist():
         return jsonify({"message": f"{symbol} is not in the watchlist."}), 404
 
     del watchlist[symbol]
-    with open('crypto_watchlist.json', 'w') as file:
+    with open(WATCHLIST_FILE, 'w') as file:
         json.dump(watchlist, file, indent=4)
 
     return jsonify({"message": f"{symbol} removed from the watchlist."})
@@ -72,11 +76,11 @@ def remove_from_watchlist():
 # Define a route to fetch live data for cryptocurrencies in the watchlist
 @app.route('/watchlist/data', methods=['GET'])
 def get_watchlist_data():
-    try:
-        with open('crypto_watchlist.json', 'r') as file:
-            watchlist = json.load(file)
-    except FileNotFoundError:
+    if not os.path.exists(WATCHLIST_FILE):
         return jsonify({"message": "Watchlist is empty."})
+
+    with open(WATCHLIST_FILE, 'r') as file:
+        watchlist = json.load(file)
 
     crypto_data = {}
     for symbol, details in watchlist.items():
